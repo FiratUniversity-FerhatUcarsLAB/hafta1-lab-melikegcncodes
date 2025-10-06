@@ -1,4 +1,115 @@
-Öğrenci No:
-AD-SOYAD:
+Öğrenci No:240541081
+AD-SOYAD:Melike GÜCİN
+Sınav çalışma planı oluşturma algoritması
+1. Başlat.
 
-Lütfen seçtiğiniz algoritmaya ait çözümü ve diğer isterleri aşağıya ekleyiniz:
+2. Sınav tarihini ve bugünün tarihini al.
+
+3. Toplam çalışılabilecek gün sayısını hesapla.
+
+4. Kullanıcının çalışabileceği günlük saat/ders süresini al.
+
+5. Çalışılacak dersleri ve her dersin konularını listele.
+
+6. Her konunun:
+
+ - Zorluk derecesini (kolay/orta/zor),
+
+ - Tahmini çalışma süresini,
+
+ - Önceliğini (belki sınavdaki ağırlığına göre),
+
+ - Tekrar edilip edilmeyeceğini al.
+
+7. (Koşul) Eğer zaman yetersizse, bazı konulara daha az zaman ayır ya da önceliği düşük konuları çıkar.
+
+8. Konuları günlük çalışma saatlerine uygun şekilde sırala.
+
+9. (Döngü) Gün gün plan yap:
+
+ - Her güne konuları sırayla yerleştir.
+
+ - Belirli aralıklarla tekrar günleri veya test çözme günleri ekle.
+
+ - (Koşul) Her 6 günde 1 gün “dinlenme günü” olarak ayır.
+
+10. Planı oluştur ve kullanıcıya sun.
+
+ALGORITMA SinavCalismaPlaniOlustur
+
+    BAŞLA
+
+    TARIH_SINAV ← kullanıcıdan_al("Sınav tarihi (GG/AA/YYYY): ")
+    TARIH_BUGUN ← bugünün_tarihi()
+    GUN_SAYISI ← tarih_farki(TARIH_SINAV, TARIH_BUGUN)
+
+    EĞER GUN_SAYISI ≤ 0 İSE
+        YAZ("Sınav tarihi geçmiş veya bugün! Plan oluşturulamaz.")
+        DURDUR
+
+    SAAT_GUNLUK ← kullanıcıdan_al("Günde kaç saat/ders çalışabilirsin?")
+
+    DERSLER ← kullanıcıdan_al("Dersleri giriniz:")  // ["Matematik", "Fizik", "Biyoloji", ...]
+    
+    KONULAR ← boş_liste
+
+    HER BİR DERS İÇİN DERSLER:
+        KONULAR_DERS ← kullanıcıdan_al(ders + " konularını, zorluklarını, sürelerini gir:")  
+        // örn: [["Fonksiyonlar", "zor", 3], ["Logaritma", "orta", 2], ...]
+        KONULAR'e ekle(KONULAR_DERS)
+
+    // Öncelik hesaplama
+    HER BİR KONU İÇİN KONULAR:
+        KONU.oncelik ← zorluk_puani(KONU.zorluk) * KONU.sure
+
+    // Toplam süre hesapla
+    TOPLAM_SURE ← 0
+    HER BİR KONU İÇİN KONULAR:
+        TOPLAM_SURE ← TOPLAM_SURE + KONU.sure
+
+    TOPLAM_CALISMA_SAATI ← GUN_SAYISI * SAAT_GUNLUK
+
+    EĞER TOPLAM_SURE > TOPLAM_CALISMA_SAATI İSE
+        YAZ("Zaman yetersiz. Önceliği düşük konular çıkarılıyor veya süreler kısaltılıyor.")
+        KONULAR ← oncelige_gore_konulari_azalt(KONULAR, TOPLAM_CALISMA_SAATI)
+
+    PLAN ← boş_liste
+    GUN ← 1
+    INDEX ← 0
+
+    // Günlük plan yap
+    WHILE GUN ≤ GUN_SAYISI:
+
+        EĞER GUN mod 7 = 0 İSE
+            PLAN[GUN] ← ["Dinlenme Günü"]
+        DEĞİLSE
+            SAAT_KALAN ← SAAT_GUNLUK
+            GUNLUK_KONULAR ← boş_liste
+
+            WHILE SAAT_KALAN > 0 VE INDEX < KONULAR.uzunluk:
+                KONU ← KONULAR[INDEX]
+                EĞER KONU.sure ≤ SAAT_KALAN İSE
+                    GUNLUK_KONULAR'e ekle(KONU.ad)
+                    SAAT_KALAN ← SAAT_KALAN - KONU.sure
+                    INDEX ← INDEX + 1
+                DEĞİLSE
+                    KONU_PARCA ← böl(KONU, SAAT_KALAN)
+                    GUNLUK_KONULAR'e ekle(KONU_PARCA)
+                    KONU.sure ← KONU.sure - SAAT_KALAN
+                    SAAT_KALAN ← 0
+
+            PLAN[GUN] ← GUNLUK_KONULAR
+
+        GUN ← GUN + 1
+
+    // Tekrar günleri ekle
+    TEKRAR_GUNLERI ← belirle_tekrar_gunleri(PLAN)
+    HER BİR GUN İÇİN TEKRAR_GUNLERI:
+        PLAN[GUN]'e ekle("Tekrar")
+
+    // Planı yazdır
+    HER GÜN İÇİN PLAN:
+        YAZ("Gün ", GÜN, ": ", PLAN[GÜN])
+
+    BİTİR
+
