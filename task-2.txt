@@ -1,4 +1,75 @@
-Öğrenci No:
-AD-SOYAD:
+Öğrenci No:240541081
+AD-SOYAD:Melike GÜCİN
 
-Lütfen seçtiğiniz algoritmaya ait çözümü ve diğer isterleri aşağıya ekleyiniz:
+1. BAŞLAT
+2. Boş bir hücre bul.
+3. 1–9 arasındaki sayılardan sırayla dene.
+4. Eğer kural ihlali yoksa (satır, sütun, 3x3 kutuda tekrar yoksa), geçici olarak yerleştir.
+5. Geri kalan hücreleri çöz (özyineleme).
+6. Eğer çıkmaza girerse, geri dön (backtrack).
+7. SON
+
+ALGORITMA SudokuCoz
+
+    BAŞLA
+
+    TAHTA ← kullanıcıdan_al("Sudoku tablosunu giriniz (0 boş hücre):")
+
+    EĞER sudoku_coz(TAHTA) DOĞRU İSE
+        YAZ("Sudoku başarıyla çözüldü!")
+        sudoku_yazdir(TAHTA)
+    DEĞİLSE
+        YAZ("Çözüm bulunamadı!")
+
+    BİTİR
+
+
+FONKSIYON sudoku_coz(TAHTA):
+
+    POZ ← bos_hucre_bul(TAHTA)
+
+    EĞER POZ = YOKSA
+        DÖNDÜR DOĞRU    // Tüm hücreler doluysa çözüm tamam
+
+    SATIR, SUTUN ← POZ
+
+    SAYI ← 1
+    WHILE SAYI ≤ 9:
+        EĞER yerlesim_gecerli_mi(TAHTA, SATIR, SUTUN, SAYI) İSE
+            TAHTA[SATIR][SUTUN] ← SAYI
+
+            EĞER sudoku_coz(TAHTA) DOĞRU İSE
+                DÖNDÜR DOĞRU   // Rekürsif çözüm başarılıysa bitir
+
+            // Eğer sonraki adım başarısızsa, geri al (backtrack)
+            TAHTA[SATIR][SUTUN] ← 0
+
+        SAYI ← SAYI + 1
+
+    DÖNDÜR YANLIŞ   // Hiçbir sayı uygun değilse geri dön
+
+
+FONKSIYON yerlesim_gecerli_mi(TAHTA, SATIR, SUTUN, SAYI):
+
+    // Satır kontrolü
+    HER i İÇİN 0'DAN 8'E:
+        EĞER TAHTA[SATIR][i] = SAYI İSE
+            DÖNDÜR YANLIŞ
+
+    // Sütun kontrolü
+    HER j İÇİN 0'DAN 8'E:
+        EĞER TAHTA[j][SUTUN] = SAYI İSE
+            DÖNDÜR YANLIŞ
+
+    // 3x3 kutu kontrolü
+    BAS_SATIR ← (SATIR // 3) * 3
+    BAS_SUTUN ← (SUTUN // 3) * 3
+
+    HER i İÇİN 0'DAN 2'YE:
+        HER j İÇİN 0'DAN 2'YE:
+            EĞER TAHTA[BAS_SATIR + i][BAS_SUTUN + j] = SAYI İSE
+                DÖNDÜR YANLIŞ
+
+    DÖNDÜR DOĞRU
+    
+    SON
