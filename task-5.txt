@@ -1,4 +1,74 @@
-Öğrenci No:
-AD-SOYAD:
+Öğrenci No:240541081
+AD-SOYAD:Melike GÜCİN
 
-Lütfen seçtiğiniz algoritmaya ait çözümü ve diğer isterleri aşağıya ekleyiniz:
+1. BAŞLA 
+
+2. Verileri kullanıcıdan al.
+
+3. Kullanıcıdan her harcama kategorisinin bilgilerini al.
+
+4. Bütçe durumunu kontrol et.
+
+5. Ortalama ve öneri hesaplama
+
+6. Tasarruf önerileri
+
+7. SON
+
+ALGORITMA AkilliHarcamaDengesi
+    BAŞLA
+
+    // 1. Veri girişi
+    GELIR ← kullanıcıdan_al("Aylık toplam gelir miktarını giriniz: ")
+    KATEGORI_SAYISI ← kullanıcıdan_al("Kaç farklı harcama kategoriniz var?: ")
+
+    HARCAMALAR ← boş_liste
+
+    // 2. Kullanıcıdan her kategorinin bilgilerini al
+    DÖNGÜ i ← 1'DEN KATEGORI_SAYISI'NA KADAR
+        KATEGORI_ADI ← kullanıcıdan_al("Kategori adı giriniz (örn: Yemek, Ulaşım): ")
+        HARCAMA_TUTARI ← kullanıcıdan_al(KATEGORI_ADI + " için harcanan toplam tutar: ")
+        HARCAMALAR'e ekle([KATEGORI_ADI, HARCAMA_TUTARI])
+    DÖNGÜ_SONU
+
+    // 3. Toplam gider hesapla
+    TOPLAM_GIDER ← 0
+    DÖNGÜ HER BİR KAYIT İÇİN HARCAMALAR
+        TOPLAM_GIDER ← TOPLAM_GIDER + KAYIT.tutar
+    DÖNGÜ_SONU
+
+    // 4. Bütçe durumu kontrolü
+    EĞER TOPLAM_GIDER > GELIR İSE
+        YAZ("Uyarı: Harcamalar gelirden fazla! Acil tasarruf önerisi gerekiyor.")
+    DEĞİLSE
+        YAZ("Harcamalar gelir sınırı içinde. İyi gidiyorsunuz!")
+    SON
+
+    // 5. Ortalama ve öneri hesaplama
+    ORTALAMA ← TOPLAM_GIDER / KATEGORI_SAYISI
+
+    DÖNGÜ HER BİR KAYIT İÇİN HARCAMALAR
+        EĞER KAYIT.tutar > ORTALAMA İSE
+            YAZ(KAYIT.ad + ": Bu kategori ortalamanın üzerinde, azaltmayı düşünün.")
+        DEĞİLSE
+            YAZ(KAYIT.ad + ": Harcama dengeli.")
+        SON
+    DÖNGÜ_SONU
+
+    // 6. Tasarruf önerileri
+    TASARRUF_ORANI ← (TOPLAM_GIDER / GELIR) * 100
+
+    EĞER TASARRUF_ORANI > 90 İSE
+        YAZ("Aşırı harcama yapıyorsunuz! %10 acil kesinti önerilir.")
+    EĞER TASARRUF_ORANI > 70 VE TASARRUF_ORANI ≤ 90 İSE
+        YAZ("Harcamalar yüksek, bazı lüks kategoriler azaltılabilir.")
+    EĞER TASARRUF_ORANI ≤ 70 İSE
+        YAZ("Tebrikler! Dengeli harcama yapıyorsunuz.")
+    SON
+
+    // 7. Sonuç
+    YAZ("Toplam Gider: ", TOPLAM_GIDER)
+    YAZ("Kalan Bütçe: ", GELIR - TOPLAM_GIDER)
+    YAZ("Aylık ortalama harcama: ", ORTALAMA)
+
+    BİTİR
