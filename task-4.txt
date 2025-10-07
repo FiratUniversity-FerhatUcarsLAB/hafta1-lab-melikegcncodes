@@ -1,4 +1,79 @@
-Öğrenci No:
-AD-SOYAD:
+Öğrenci No:240541081
+AD-SOYAD:Melike GÜCİN
 
-Lütfen seçtiğiniz algoritmaya ait çözümü ve diğer isterleri aşağıya ekleyiniz:
+1. BAŞLA 
+2. Hedef renk belli (örneğin RGB = 120, 180, 200).
+3. Kullanıcıdan renk karışımı alınır.
+4. Hedefle fark hesaplanır.
+5. Eğer fark belirli bir eşiğin altındaysa, hedef renk elde edilmiştir.
+6. Aksi hâlde, yeni bir deneme yapılır.
+7. SON
+
+ALGORITMA RenkKaristirici
+
+    BAŞLA
+
+    // 1. Hedef renk bileşenlerini belirle
+    R_HEDEF ← kullanıcıdan_al("Hedef kırmızı değeri (0-255): ")
+    G_HEDEF ← kullanıcıdan_al("Hedef yeşil değeri (0-255): ")
+    B_HEDEF ← kullanıcıdan_al("Hedef mavi değeri (0-255): ")
+
+    // 2. Başlangıç karışımını sıfırla
+    R ← 0
+    G ← 0
+    B ← 0
+
+    // 3. Hata payı belirle (yaklaşma toleransı)
+    ESİK ← 5   // hedef renkten en fazla ±5 fark kabul edilir
+
+    // 4. Deneme sayacı başlat
+    DENE ← 1
+
+    // 5. Döngü: hedef renge ulaşılana kadar karıştır
+    WHILE DOĞRU:
+
+        YAZ("Deneme ", DENE, ":")
+        R ← kullanıcıdan_al("Kırmızı miktarı (0-255): ")
+        G ← kullanıcıdan_al("Yeşil miktarı (0-255): ")
+        B ← kullanıcıdan_al("Mavi miktarı (0-255): ")
+
+        // 6. Farkları hesapla
+        FARK_R ← mutlak_deger(R_HEDEF - R)
+        FARK_G ← mutlak_deger(G_HEDEF - G)
+        FARK_B ← mutlak_deger(B_HEDEF - B)
+
+        // 7. Ortalama farkı bul
+        ORT_FARK ← (FARK_R + FARK_G + FARK_B) / 3
+
+        // 8. Hedef renge ulaşıldı mı?
+        EĞER (FARK_R ≤ ESİK) VE (FARK_G ≤ ESİK) VE (FARK_B ≤ ESİK) İSE
+            YAZ("🎯 Tebrikler! Hedef renge ulaşıldı.")
+            ÇIKIŞ YAP
+        DEĞİLSE
+            // 9. Henüz tam ulaşılmadı, yönlendirme yap
+            EĞER R < R_HEDEF İSE
+                YAZ("Biraz daha kırmızı ekle.")
+            DEĞİLSE EĞER R > R_HEDEF İSE
+                YAZ("Biraz kırmızı azalt.")
+            BİTİR EĞER
+
+            EĞER G < G_HEDEF İSE
+                YAZ("Biraz daha yeşil ekle.")
+            DEĞİLSE EĞER G > G_HEDEF İSE
+                YAZ("Biraz yeşil azalt.")
+            BİTİR EĞER
+
+            EĞER B < B_HEDEF İSE
+                YAZ("Biraz daha mavi ekle.")
+            DEĞİLSE EĞER B > B_HEDEF İSE
+                YAZ("Biraz mavi azalt.")
+            BİTİR EĞER
+
+            YAZ("Ortalama fark: ", ORT_FARK)
+        BİTİR EĞER
+
+        DENE ← DENE + 1
+
+    BİTİR WHILE
+
+    BİTİR
