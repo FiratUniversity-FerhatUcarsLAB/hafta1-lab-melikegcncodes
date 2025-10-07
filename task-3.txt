@@ -1,4 +1,61 @@
-Öğrenci No:
-AD-SOYAD:
+Öğrenci No:240541081
+AD-SOYAD:Melike GÜCİN
 
-Lütfen seçtiğiniz algoritmaya ait çözümü ve diğer isterleri aşağıya ekleyiniz:
+1. BAŞLA
+
+2. Veri girişi: Kullanıcıdan isimler alınır.
+
+3. Karşılaştırma: Her iki bitişik isim (REHBER[i] ve REHBER[i+1]) sözlük sırasına göre karşılaştırılır.
+
+4. Koşul:
+
+  - Eğer bir önceki isim, sonrakinden alfabetik olarak büyükse, yer değiştir.
+
+5. Tekrar eden işlem:
+
+  - Bu işlem tüm liste boyunca tekrarlanır.
+
+  - Döngü, hiçbir değişiklik yapılmadığında (liste tamamen sıralandığında) durur.
+
+6. SON
+
+ALGORITMA TelefonRehberiSirala
+
+    BAŞLA
+
+    // 1. Kullanıcıdan kişi sayısını al
+    N ← kullanıcıdan_al("Rehberdeki kişi sayısı: ")
+
+    // 2. Rehber isimlerini liste olarak al
+    REHBER ← boş_liste
+    FOR i ← 1'DEN N'E:
+        ISIM ← kullanıcıdan_al("Kişi " + i + " adını gir: ")
+        REHBER'e_ekle(ISIM)
+
+    // 3. Alfabetik sıralama işlemi başlat
+    // (Burada Bubble Sort mantığı kullanıyoruz)
+    DEGISTI ← DOĞRU
+    WHILE DEGISTI = DOĞRU:
+        DEGISTI ← YANLIŞ
+
+        FOR i ← 0'DAN N-2'YE:
+            // 4. İki bitişik ismi karşılaştır
+            EĞER REHBER[i] > REHBER[i+1] İSE
+                // 5. Alfabetik sıraya göre yerleri yanlışsa değiştir
+                GECICI ← REHBER[i]
+                REHBER[i] ← REHBER[i+1]
+                REHBER[i+1] ← GECICI
+
+                DEGISTI ← DOĞRU
+            BİTİR EĞER
+        BİTİR FOR
+
+    BİTİR WHILE
+
+    // 6. Sıralama tamamlandıktan sonra sonucu yazdır
+    YAZ("Rehber alfabetik olarak sıralandı:")
+
+    FOR i ← 0'DAN N-1'E:
+        YAZ(REHBER[i])
+
+    BİTİR
